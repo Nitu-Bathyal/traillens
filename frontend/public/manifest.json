@@ -1,0 +1,16 @@
+{
+  "short_name": "TrailLens",
+  "name": "TrailLens - Nature Companion",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0e2213",
+  "theme_color": "#16361e",
+  "display": "standalone",
+  "orientation": "portrait"
+}

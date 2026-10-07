@@ -1,0 +1,61 @@
+temperature_c,humidity_pct,cloud_cover_pct,time_of_day,is_weekend,available_minutes,terrain_code,energy_level,activity_category,completed_without_phone
+22.5,50,20,0,1,30,0,1,Flora & Leaf Geometry,1
+14.2,75,80,0,0,15,1,0,Canopy Mindfulness & Soundscape,1
+28.0,40,10,1,1,45,2,2,Trail Walk & Sky Watching,1
+18.5,60,40,1,0,20,3,1,Insect & Macro Scouting,1
+10.0,85,90,2,0,10,4,0,Sensory Grounding & Texture,1
+25.1,55,30,0,1,60,1,2,Trail Walk & Sky Watching,1
+16.4,70,60,2,1,25,0,0,Canopy Mindfulness & Soundscape,1
+31.0,35,5,1,0,15,3,1,Sensory Grounding & Texture,0
+19.0,58,25,0,0,30,0,1,Flora & Leaf Geometry,1
+21.5,62,50,1,1,40,1,1,Insect & Macro Scouting,1
+12.0,80,75,2,0,20,4,0,Canopy Mindfulness & Soundscape,1
+26.4,48,15,0,1,90,1,2,Trail Walk & Sky Watching,1
+17.8,65,45,1,0,25,0,1,Flora & Leaf Geometry,1
+23.0,52,30,0,0,35,3,1,Insect & Macro Scouting,1
+9.5,88,95,0,1,15,1,0,Sensory Grounding & Texture,1
+27.5,42,20,1,1,60,2,2,Trail Walk & Sky Watching,1
+15.0,72,70,2,0,20,0,0,Canopy Mindfulness & Soundscape,1
+20.2,59,35,1,1,30,0,1,Flora & Leaf Geometry,1
+24.8,50,25,0,0,45,1,2,Trail Walk & Sky Watching,1
+18.0,66,55,2,1,15,4,0,Sensory Grounding & Texture,1
+22.0,54,40,0,1,35,0,1,Flora & Leaf Geometry,1
+13.5,78,85,1,0,20,1,0,Canopy Mindfulness & Soundscape,1
+29.5,38,10,1,1,50,2,2,Trail Walk & Sky Watching,1
+19.8,61,30,0,0,25,3,1,Insect & Macro Scouting,1
+11.2,82,90,2,0,15,4,0,Sensory Grounding & Texture,1
+26.0,46,18,0,1,75,1,2,Trail Walk & Sky Watching,1
+17.1,68,50,1,0,30,0,1,Flora & Leaf Geometry,1
+23.5,53,35,1,1,40,1,1,Insect & Macro Scouting,1
+8.8,90,100,0,1,10,1,0,Sensory Grounding & Texture,1
+28.2,40,12,1,0,30,2,2,Trail Walk & Sky Watching,1
+14.8,74,65,2,1,25,0,0,Canopy Mindfulness & Soundscape,1
+20.9,57,28,0,0,30,0,1,Flora & Leaf Geometry,1
+25.5,49,22,1,1,60,1,2,Trail Walk & Sky Watching,1
+16.5,69,60,2,0,15,4,0,Sensory Grounding & Texture,1
+22.8,51,32,0,1,40,3,1,Insect & Macro Scouting,1
+12.8,81,80,0,0,20,1,0,Canopy Mindfulness & Soundscape,1
+30.2,36,8,1,1,45,2,2,Trail Walk & Sky Watching,1
+18.9,63,42,1,0,25,0,1,Flora & Leaf Geometry,1
+10.5,86,92,2,1,15,4,0,Sensory Grounding & Texture,1
+24.2,53,26,0,0,35,1,1,Insect & Macro Scouting,1
+15.8,71,58,2,0,20,0,0,Canopy Mindfulness & Soundscape,1
+21.2,58,34,1,1,30,0,1,Flora & Leaf Geometry,1
+27.0,44,15,0,1,80,1,2,Trail Walk & Sky Watching,1
+17.5,67,48,1,0,25,3,1,Flora & Leaf Geometry,1
+11.8,83,88,2,1,15,1,0,Sensory Grounding & Texture,1
+23.8,52,30,0,0,40,1,1,Insect & Macro Scouting,1
+13.9,76,75,0,1,20,0,0,Canopy Mindfulness & Soundscape,1
+29.0,39,12,1,0,35,2,2,Trail Walk & Sky Watching,1
+19.4,62,38,1,1,30,0,1,Flora & Leaf Geometry,1
+16.0,70,62,2,0,20,4,0,Sensory Grounding & Texture,1
+22.3,55,36,0,1,45,3,1,Insect & Macro Scouting,1
+14.5,73,68,1,0,25,1,0,Canopy Mindfulness & Soundscape,1
+28.5,41,14,1,1,60,1,2,Trail Walk & Sky Watching,1
+18.2,64,44,0,0,30,0,1,Flora & Leaf Geometry,1
+10.8,84,90,2,1,15,4,0,Sensory Grounding & Texture,1
+25.0,48,20,0,1,50,1,2,Trail Walk & Sky Watching,1
+16.9,68,52,1,0,25,0,1,Flora & Leaf Geometry,1
+23.1,54,33,1,1,35,3,1,Insect & Macro Scouting,1
+12.4,79,82,0,0,15,1,0,Canopy Mindfulness & Soundscape,1
+27.8,43,16,1,1,70,2,2,Trail Walk & Sky Watching,1

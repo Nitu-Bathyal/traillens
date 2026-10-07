@@ -1,0 +1,180 @@
+import json
+import re
+import io
+import base64
+from typing import Optional
+from PIL import Image
+import httpx
+
+from app.ai.base import AIProvider
+from app.models.observation import IdentificationResult
+from app.config import settings
+
+
+TRAILLENS_SYSTEM_PROMPT = """You are TrailLens, an outdoor open-weight nature vision companion.
+Your central mission: Help people see something in the natural world, understand it quickly, and immediately step away from the screen to observe it in real life.
+Analyze the user's nature photo carefully.
+Output MUST be strict valid JSON with no conversational preamble or markdown code fence.
+JSON Schema:
+{
+  "identification": "Common Name of plant, insect, bird, fungus, or natural element",
+  "scientific_name": "Latin binomial if known, or null",
+  "category": "flora | fauna | fungi | geology | weather",
+  "confidence": 0.0 to 1.0 (float - do NOT claim 1.0; reflect honest uncertainty),
+  "confidence_level": "high | moderate | uncertain",
+  "summary": "2-3 concise sentences explaining key ecological facts.",
+  "observations": [
+    "Detail 1 the user should physically look for right now (e.g., leaf vein pattern)",
+    "Detail 2 (e.g., texture, underside, or stem)",
+    "Detail 3 (e.g., nearby soil, insects, or moisture)"
+  ],
+  "outdoor_challenge": "A specific 2-5 minute activity to do outdoors right now WITHOUT looking at a phone.",
+  "safety_note": "A clear, realistic safety warning (e.g., do not ingest, watch for allergens/stings, stay on path).",
+  "screen_break_message": "Put your phone away. Spend the next 3 minutes observing without screens."
+}
+"""
+
+
+class OpenModelProvider(AIProvider):
+    """
+    Open-weight model provider for TrailLens.
+    Supports:
+    - Google Gemma 2 / PaliGemma open weights (via Hugging Face Open Inference API or local endpoint)
+    - Local Ollama runtime (e.g. ollama run gemma2 / minicpm-v / llava)
+    """
+
+    def __init__(
+        self,
+        model_name: str = "google/gemma-2-2b-it",
+        vision_model_name: str = "google/paligemma-3b-pt-224",
+        license_info: str = "Gemma Terms of Use / Open Weights"
+    ):
+        self._model_name = model_name
+        self._vision_model_name = vision_model_name
+        self._license = license_info
+
+    @property
+    def name(self) -> str:
+        return "open_model"
+
+    @property
+    def model_name(self) -> str:
+        return f"{self._model_name} (Vision: {self._vision_model_name})"
+
+    @property
+    def license(self) -> str:
+        return self._license
+
+    @property
+    def is_offline(self) -> bool:
+        # If pointing to local Ollama or local transformers pipeline, it is 100% offline
+        return "localhost" in settings.OLLAMA_BASE_URL or "127.0.0.1" in settings.OLLAMA_BASE_URL
+
+    def _image_to_base64(self, image: Image.Image) -> str:
+        buffered = io.BytesIO()
+        image.save(buffered, format="JPEG", quality=85)
+        return base64.b64encode(buffered.getvalue()).decode("utf-8")
+
+    def _clean_json_response(self, text: str) -> dict:
+        """Strip markdown fences and parse JSON safely."""
+        cleaned = text.strip()
+        # Remove ```json ... ``` or ``` ... ```
+        fence_match = re.search(r"```(?:json)?\s*([\s\S]*?)\s*```", cleaned)
+        if fence_match:
+            cleaned = fence_match.group(1).strip()
+        else:
+            # Fallback: extract substring between first { and last }
+            brace_match = re.search(r"(\{[\s\S]*\})", cleaned)
+            if brace_match:
+                cleaned = brace_match.group(1).strip()
+        return json.loads(cleaned)
+
+    async def identify(
+        self,
+        image: Image.Image,
+        user_hint: Optional[str] = None
+    ) -> IdentificationResult:
+        # Check if local Ollama runtime is available
+        ollama_url = f"{settings.OLLAMA_BASE_URL.rstrip('/')}/api/generate"
+        b64_img = self._image_to_base64(image)
+
+        prompt = TRAILLENS_SYSTEM_PROMPT
+        if user_hint:
+            prompt += f"\nUser Context / Hint: {user_hint}"
+
+        # 1. Try local Ollama open model if accessible
+        try:
+            async with httpx.AsyncClient(timeout=30.0) as client:
+                res = await client.post(
+                    ollama_url,
+                    json={
+                        "model": "minicpm-v" if "paligemma" in self._vision_model_name.lower() else "gemma2",
+                        "prompt": prompt,
+                        "images": [b64_img],
+                        "stream": False,
+                        "format": "json"
+                    }
+                )
+                if res.status_code == 200:
+                    data = res.json()
+                    raw_text = data.get("response", "")
+                    parsed = self._clean_json_response(raw_text)
+                    return IdentificationResult(
+                        identification=parsed.get("identification", "Wild Organism"),
+                        scientific_name=parsed.get("scientific_name"),
+                        category=parsed.get("category", "flora"),
+                        confidence=float(parsed.get("confidence", 0.7)),
+                        confidence_level=parsed.get("confidence_level", "moderate"),
+                        summary=parsed.get("summary", "Identified using open-weight vision model."),
+                        observations=parsed.get("observations", ["Observe leaf texture", "Count petals"]),
+                        outdoor_challenge=parsed.get("outdoor_challenge", "Spend 3 minutes looking closely."),
+                        safety_note=parsed.get("safety_note", "Do not consume wild organisms."),
+                        screen_break_message=parsed.get("screen_break_message", "Put your phone away now."),
+                        model_used=f"Ollama Local ({self.model_name})",
+                        is_demo=False
+                    )
+        except Exception:
+            # Local Ollama not currently active or unreachable
+            pass
+
+        # 2. Try Hugging Face Open Inference API if API token is configured
+        if settings.HUGGINGFACE_API_KEY:
+            try:
+                hf_url = f"{settings.HUGGINGFACE_INFERENCE_URL}/{self._vision_model_name}"
+                headers = {"Authorization": f"Bearer {settings.HUGGINGFACE_API_KEY}"}
+                buffered = io.BytesIO()
+                image.save(buffered, format="JPEG")
+                img_bytes = buffered.getvalue()
+
+                async with httpx.AsyncClient(timeout=45.0) as client:
+                    hf_res = await client.post(
+                        hf_url,
+                        headers=headers,
+                        content=img_bytes
+                    )
+                    if hf_res.status_code == 200:
+                        parsed = self._clean_json_response(hf_res.text)
+                        return IdentificationResult(
+                            identification=parsed.get("identification", "Specimen"),
+                            scientific_name=parsed.get("scientific_name"),
+                            category=parsed.get("category", "flora"),
+                            confidence=float(parsed.get("confidence", 0.75)),
+                            confidence_level=parsed.get("confidence_level", "moderate"),
+                            summary=parsed.get("summary", "Analyzed with Hugging Face open weights."),
+                            observations=parsed.get("observations", []),
+                            outdoor_challenge=parsed.get("outdoor_challenge", "Observe in nature."),
+                            safety_note=parsed.get("safety_note", "Never ingest wild specimens."),
+                            screen_break_message=parsed.get("screen_break_message", "Put phone away."),
+                            model_used=f"HuggingFace Open Weights ({self._vision_model_name})",
+                            is_demo=False
+                        )
+            except Exception:
+                pass
+
+        # 3. Transparent fallback to Demo AI Provider with clear label
+        from app.ai.demo_provider import DemoAIProvider
+        demo = DemoAIProvider()
+        result = await demo.identify(image, user_hint)
+        # Note the provenance clearly so there is zero false claim
+        result.model_used = f"{self.model_name} (Simulation Fallback - API offline)"
+        return result

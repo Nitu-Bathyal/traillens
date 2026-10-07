@@ -1,0 +1,90 @@
+[
+  {
+    "id": "ch-bark-tactile",
+    "title": "Tactile Tree Mapping",
+    "category": "textures",
+    "duration_minutes": 3,
+    "instruction": "Find three different trees nearby. Close your eyes and touch their bark with both hands. Compare the furrow depth, temperature, and roughness.",
+    "screen_rule": "Slide your phone deep into your pocket or pack.",
+    "difficulty": "easy",
+    "equipment_needed": "None — your hands and sense of touch",
+    "follow_up_prompt": "Which tree felt warmest to the touch?"
+  },
+  {
+    "id": "ch-bird-triangulate",
+    "title": "Acoustic Triangulation",
+    "category": "acoustics",
+    "duration_minutes": 4,
+    "instruction": "Stand completely still. Close your eyes and listen for birdsong. Point with your index finger in the direction of the first call you hear, then rotate if a second bird responds.",
+    "screen_rule": "Lock your screen and keep your hands free.",
+    "difficulty": "easy",
+    "equipment_needed": "None — ears and stillness",
+    "follow_up_prompt": "Did you hear two distinct species communicating?"
+  },
+  {
+    "id": "ch-leaf-geometry",
+    "title": "Leaf Vein Geometry",
+    "category": "botany",
+    "duration_minutes": 3,
+    "instruction": "Find a fallen leaf. Hold it up toward the sky so the sunlight shines through it. Trace the primary midrib vein and count how many secondary veins branch outward.",
+    "screen_rule": "Keep your screen dark and locked.",
+    "difficulty": "easy",
+    "equipment_needed": "One fallen leaf and natural sunlight",
+    "follow_up_prompt": "Were the branching angles symmetrical or staggered?"
+  },
+  {
+    "id": "ch-insect-forager",
+    "title": "The Forager's Trail",
+    "category": "insects",
+    "duration_minutes": 5,
+    "instruction": "Find an ant, beetle, or flying insect on a plant or path. Without touching or blocking it, track its journey for 3 continuous minutes. Watch how it navigates obstacles.",
+    "screen_rule": "Put the phone away completely.",
+    "difficulty": "moderate",
+    "equipment_needed": "Patience and gentle observation",
+    "follow_up_prompt": "What barrier did the insect encounter, and how did it adapt?"
+  },
+  {
+    "id": "ch-cloud-cadence",
+    "title": "Sky & Wind Drift",
+    "category": "weather",
+    "duration_minutes": 4,
+    "instruction": "Look up at the highest cloud or treetops. Align a fixed reference point (like a lamp post or branch tip) with the cloud edge and measure how long it takes to move out of alignment.",
+    "screen_rule": "Place your device face down on a bench or in your bag.",
+    "difficulty": "easy",
+    "equipment_needed": "An open view of the sky",
+    "follow_up_prompt": "Was the upper wind blowing in the same direction as the surface breeze?"
+  },
+  {
+    "id": "ch-ground-smell",
+    "title": "Petrichor & Forest Floor",
+    "category": "mindfulness",
+    "duration_minutes": 3,
+    "instruction": "Crouch down near damp soil, leaf litter, or moss. Take three slow, deep diaphragmatic breaths through your nose. Notice the earthy aroma produced by geosmin and actinobacteria.",
+    "screen_rule": "Pocket your phone now.",
+    "difficulty": "easy",
+    "equipment_needed": "None — deep outdoor breaths",
+    "follow_up_prompt": "Did the air smell sweet, mineral, or woody?"
+  },
+  {
+    "id": "ch-micro-canopy",
+    "title": "1-Meter Micro Safari",
+    "category": "botany",
+    "duration_minutes": 5,
+    "instruction": "Pick an arbitrary 1-meter square of lawn, flowerbed, or path edge. Count how many distinct shades of green exist within that single square meter.",
+    "screen_rule": "Screen off. Eyes wide.",
+    "difficulty": "easy",
+    "equipment_needed": "None",
+    "follow_up_prompt": "How many green shades did you differentiate?"
+  },
+  {
+    "id": "ch-sun-shadow",
+    "title": "Solar Angle & Shadow Length",
+    "category": "weather",
+    "duration_minutes": 2,
+    "instruction": "Stand tall in a sunny patch. Estimate your shadow length relative to your height. Notice which compass direction your shadow points away from the sun.",
+    "screen_rule": "Put your phone away.",
+    "difficulty": "easy",
+    "equipment_needed": "Sunlight and your own shadow",
+    "follow_up_prompt": "Is your shadow longer or shorter than your body?"
+  }
+]
