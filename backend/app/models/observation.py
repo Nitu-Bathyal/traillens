@@ -22,6 +22,15 @@ class IdentificationResult(BaseModel):
     )
     model_used: str = Field("gemma-2-2b-open-weights", description="Model name and weights used")
     is_demo: bool = Field(False, description="Whether this response was synthesized in demo mode")
+    is_confident: bool = Field(True, description="False if no organism can be confidently identified")
+    fallback_warning: Optional[str] = Field(
+        None,
+        description="Explicit notice when running in illustrative fallback or demo mode without a live vision model"
+    )
+    scene_description: Optional[str] = Field(
+        None,
+        description="Objective description of visual landscape or image characteristics"
+    )
 
 
 class ObservationCreate(BaseModel):

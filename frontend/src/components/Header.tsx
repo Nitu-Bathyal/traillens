@@ -72,8 +72,10 @@ export const Header: React.FC<HeaderProps> = ({ isOnline, modelInfo, isDemo }) =
           alignItems: 'center',
           gap: '6px'
         }}>
-          <span>Active Intelligence:</span>
-          <strong style={{ color: 'var(--text-muted)' }}>{modelInfo}</strong>
+          <span>{isDemo ? 'Engine Mode:' : 'Active Intelligence:'}</span>
+          <strong style={{ color: isDemo ? '#92400e' : 'var(--text-muted)' }}>
+            {isDemo ? 'Offline Nature Heuristics (Demo / Fallback — No Live Model)' : modelInfo}
+          </strong>
         </div>
       )}
     </header>

@@ -227,15 +227,59 @@ export const IdentificationCard: React.FC<IdentificationCardProps> = ({
           paddingTop: '20px'
         }}>
           
+          {/* Explicit Fallback / Demo Notice Banner */}
+          {result.fallback_warning && (
+            <div style={{
+              background: '#fffbeb',
+              border: '1px solid #fde68a',
+              borderRadius: 'var(--radius-md)',
+              padding: '14px 16px',
+              color: '#92400e',
+              fontSize: '0.88rem',
+              lineHeight: '1.45',
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '10px'
+            }}>
+              <AlertTriangle size={18} style={{ flexShrink: 0, marginTop: '2px', color: '#b45309' }} />
+              <div>
+                <strong style={{ display: 'block', color: '#78350f', marginBottom: '2px' }}>
+                  Illustrative Demo / Fallback Mode
+                </strong>
+                <span>{result.fallback_warning}</span>
+              </div>
+            </div>
+          )}
+
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px' }}>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px', flexWrap: 'wrap' }}>
                 <span className="badge badge-open">{result.category}</span>
-                <span className="badge badge-online">
-                  {Math.round(result.confidence * 100)}% Confidence
-                </span>
-                {result.is_demo && <span className="badge badge-demo">Demo Heuristics</span>}
+                
+                {/* Honest Confidence & Model Attribution Badges */}
+                {result.is_confident && !result.is_demo ? (
+                  <span className="badge badge-online">
+                    {Math.round(result.confidence * 100)}% Confidence
+                  </span>
+                ) : (
+                  <span className="badge badge-demo" style={{ background: '#fef3c7', color: '#92400e' }}>
+                    {result.confidence_level === 'uncertain' || !result.is_confident
+                      ? `Uncertain Confidence (${Math.round(result.confidence * 100)}%)`
+                      : `Illustrative Heuristic (${Math.round(result.confidence * 100)}%)`}
+                  </span>
+                )}
+
+                {result.is_demo ? (
+                  <span className="badge badge-demo" style={{ border: '1px dashed #d97706' }}>
+                    Simulation Heuristics
+                  </span>
+                ) : (
+                  <span className="badge badge-online">
+                    Live Model ({result.model_used})
+                  </span>
+                )}
               </div>
+
               <h2 style={{ fontSize: '1.6rem', color: 'var(--forest-900)', margin: 0 }}>
                 {result.identification}
               </h2>
@@ -255,6 +299,19 @@ export const IdentificationCard: React.FC<IdentificationCardProps> = ({
               {isSpeaking ? 'Stop Audio' : 'Listen'}
             </button>
           </div>
+
+          {result.scene_description && (
+            <div style={{
+              fontSize: '0.84rem',
+              color: 'var(--text-muted)',
+              background: 'var(--forest-50)',
+              padding: '8px 12px',
+              borderRadius: 'var(--radius-sm)',
+              border: '1px solid var(--border-light)'
+            }}>
+              <strong>Visual Scene:</strong> {result.scene_description}
+            </div>
+          )}
 
           <p style={{ color: 'var(--text-muted)', fontSize: '0.98rem', lineHeight: '1.5' }}>
             {result.summary}

@@ -11,6 +11,9 @@ export interface IdentificationResult {
   screen_break_message: string;
   model_used: string;
   is_demo: boolean;
+  is_confident?: boolean;
+  fallback_warning?: string | null;
+  scene_description?: string | null;
 }
 
 export interface Observation {
